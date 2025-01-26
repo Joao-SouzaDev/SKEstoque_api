@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using SKEstoqueAPI.Data;
+using SKEstoqueAPI.Repositories.Imp;
+using SKEstoqueAPI.Repositories.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,10 +12,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 var connString = builder.Configuration.GetConnectionString("SKEstoqueConnection");
+
 builder.Services.AddDbContext<SKEstoqueContext>(options =>
 {
     options.UseMySql(connString,ServerVersion.AutoDetect(connString));
 });
+builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
